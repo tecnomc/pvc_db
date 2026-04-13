@@ -1,0 +1,45 @@
+kubectl apply -f configmap.yaml
+kubectl apply -f secret.yaml
+kubectl apply -f mysql-headless.yaml
+kubectl apply -f mysql-statefulset.yaml
+kubectl apply -f app-deployment.yaml
+kubectl apply -f app-service.yaml
+  
+kubectl get all
+kubectl get pods -o wide
+
+minikube service web-svc --url
+curl http://192.168.49.2:30008
+
+kubectl get pvc
+status - Bound
+
+Check MySQL Pod
+kubectl get pods
+Output :
+mysql-0   Running
+
+Connect to Mysql
+kubectl exec -it mysql-0 -- bash
+mysql -u root -p
+Enter password (from your Secret) : root123
+SHOW DATABASES;
+
+Create table:
+CREATE DATABASE testdb;
+USE testdb;
+
+CREATE TABLE users (
+  id INT PRIMARY KEY,
+  name VARCHAR(50)
+);
+
+INSERT INTO users VALUES (1, 'Shilpa');
+SELECT * FROM users;
+
+kubectl delete pod mysql-0
+Kubernetes recreates it automatically
+
+kubectl exec -it mysql-0 -- mysql -u root -p
+USE testdb;
+SELECT * FROM users;
